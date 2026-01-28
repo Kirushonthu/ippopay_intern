@@ -49,7 +49,7 @@ h3 {
 }
 
 .field input {
-     width: 96%;
+     width: 100%;
     padding: 10px;
     border-radius: 6px;
     border: 1px solid #ccc;
@@ -90,7 +90,7 @@ h3 {
 }
 
 
-button {
+.logbutton {
     width: 100%;
     padding: 14px;
     background-color: #04AA6D;
@@ -101,14 +101,14 @@ button {
     cursor: pointer;
 }
 
-button:hover {
+.logbutton:hover {
     background-color: #03945f;
 }
 .password-box{
     position: relative;
 }
 .password-box input{
-    width: 89%;
+    width: 100%;
     padding: 10px;
     padding-right: 40px;
 }

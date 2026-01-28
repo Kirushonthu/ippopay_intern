@@ -54,7 +54,7 @@ function Loginform({ setIsLoggedIn }) {
                     </label>
                 </div>
 
-                <button type="submit">Log in</button>
+                <button type="submit" className='logbutton'>Log in</button>
 
             </form>
         </div>
