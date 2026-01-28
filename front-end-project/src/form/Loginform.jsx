@@ -4,16 +4,18 @@ import './Loginform.css';
 import Eyeclose from "../images/Eyeclose.svg";
 import Eyeopen from "../images/Eyeopen.svg";
 
-function Loginform() {
+function Loginform({ setIsLoggedIn }) {
+
     const [showPassword, setShowPassword] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        setIsLoggedIn(true);
+    };
 
     return (
         <div className="container">
-            <form className="login-form">
-
-                {/* <div className="logo">
-                    <img src={newLogoText} alt="logo" />
-                </div> */}
+            <form className="login-form" onSubmit={handleSubmit}>
 
                 <h3>Log in</h3>
 
@@ -41,18 +43,14 @@ function Loginform() {
                         />
                     </div>
                 </div>
-
+                
                 <div className="password">
-                    <a href="#">Forgot Password?</a>
-                    <br /><br />
-                </div>
-
+                    <a href="#">Forgot Password?</a> <br /><br />
+                </div> 
+                
                 <div className="terms">
                     <input type="checkbox" id="check" />
-                    <label htmlFor="check">
-                        By clicking Log in, you agree to our
-                        <a href="#"> Terms</a>, <a href="#"> Policy </a>
-                        and receive text messages from Parknstays.
+                    <label htmlFor="check"> By clicking Log in, you agree to our <a href="#"> Terms</a>, <a href="#"> Policy </a> and receive text messages from Parknstays.
                     </label>
                 </div>
 
