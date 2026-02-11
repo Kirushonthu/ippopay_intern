@@ -1,11 +1,14 @@
-import './App.css'
+import Footer from "./Footer"
+import Header from "./Header"
+import Body from "./Body"
 
 function App() {
 
   return (
     <>
-    <h1 className='font-bold text-5xl underline' >Axios api</h1>
-    
+     <Header/>
+     <Body></Body>
+    <Footer/>
     </>
   )
 }
