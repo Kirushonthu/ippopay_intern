@@ -3,7 +3,7 @@ import React from 'react'
 function Apidata() {
     return (
         <>
-            <h1>Apidata</h1>
+            {/* <h1>Apidata</h1> */}
         </>
     )
 }
