@@ -18,10 +18,6 @@ function Recipe() {
     fetchdata();
   }, []);
 
-  // const filter=()=>{
-
-  // }
-
 
   return (
     <div className="min-h-screen p-6">
@@ -45,13 +41,11 @@ function Recipe() {
         {user.map((recipe) => (
           <div
             key={recipe.id}
-            className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden"
-          >
+            className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden" >
             <img
               src={recipe.image}
               alt={recipe.name}
-              className="w-full object-cover"
-            />
+              className="w-full object-cover" />
 
             <div className="p-4">
               <h3 className="text-lg font-semibold">
