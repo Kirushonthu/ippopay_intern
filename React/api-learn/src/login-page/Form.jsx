@@ -1,15 +1,37 @@
 import React, { useState } from "react";
 import rest from "../assets/restaurent.jpg";
+import axios from "axios";
 
 function Form({ setIsLoggedIn }) {
-  const [email, setEmail] = useState("");
+  const [Name, setName] = useState("");
   const [password, setPassword] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage("");
 
-    if (email && password) {
-      setIsLoggedIn(true); // ✅ This triggers page change
+    try {
+      const res = await axios.post(
+        "https://dummyjson.com/auth/login",
+        {
+          username: Name,
+          password: password,
+        }
+      );
+
+      console.log("Login Success:", res.data);
+
+      localStorage.setItem("accessToken", res.data.accessToken);
+      // localStorage.setItem("refreshToken", res.data.refreshToken);
+
+      setIsLoggedIn(true);
+
+    } catch (error) {
+      console.log("Login Failed:", error.response?.data || error.message);
+      setErrorMessage(
+        error.response?.data?.message || "Invalid credentials"
+      );
     }
   };
 
@@ -20,20 +42,27 @@ function Form({ setIsLoggedIn }) {
     >
       <form
         onSubmit={handleSubmit}
-        className="bg-white/20 backdrop-blur-md border border-white/30 shadow-2xl rounded-xl p-8 w-full max-w-sm space-y-10 text-white"
+        className="bg-white/20 backdrop-blur-md border border-white/30 shadow-2xl rounded-xl p-8 w-full max-w-sm space-y-6 text-white"
       >
         <h2 className="text-2xl font-bold text-center">
           Login
         </h2>
 
+        {errorMessage && (
+          <p className="text-red-300 text-sm text-center">
+            {errorMessage}
+          </p>
+        )}
+
         <div>
           <label className="block mb-1 text-sm font-medium">
-            Email
+            Username
           </label>
           <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            type="text"
+            value={Name}
+            placeholder="emilys"
+            onChange={(e) => setName(e.target.value)}
             className="w-full bg-white/30 border border-white/40 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white"
             required
           />
@@ -46,6 +75,7 @@ function Form({ setIsLoggedIn }) {
           <input
             type="password"
             value={password}
+            placeholder="emilyspass"
             onChange={(e) => setPassword(e.target.value)}
             className="w-full bg-white/30 border border-white/40 rounded-lg px-3 py-2 text-white focus:outline-none focus:ring-2 focus:ring-white"
             required

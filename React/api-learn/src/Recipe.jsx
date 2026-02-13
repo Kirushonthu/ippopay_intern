@@ -10,6 +10,7 @@ function Recipe() {
       try {
         const response = await axios.get("https://dummyjson.com/recipes");
         setUsers(response.data.recipes);
+        console.log("recipes successfull")
       } catch (error) {
         console.log(error.message);
       }
