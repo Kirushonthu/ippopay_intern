@@ -44,7 +44,7 @@ function Recipe() {
             key={recipe.id}
             className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden" >
             <img
-              src={recipe.image}
+              src={recipe.imag}
               alt={recipe.name}
               className="w-full object-cover" />
 

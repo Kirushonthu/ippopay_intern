@@ -1,15 +1,14 @@
 import React, { useState } from "react";
-import rest from "../assets/restaurent.jpg";
+import rest from "../../assets/restaurent.jpg";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 function Form({ setIsLoggedIn }) {
   const [Name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
 
     try {
       const res = await axios.post(
@@ -23,16 +22,20 @@ function Form({ setIsLoggedIn }) {
       console.log("Login Success:", res.data);
 
       localStorage.setItem("accessToken", res.data.accessToken);
-      // localStorage.setItem("refreshToken", res.data.refreshToken);
+      toast.success("Login Successful ");
 
-      setIsLoggedIn(true);
+      setTimeout(() => {
+        setIsLoggedIn(true);
+      }, 1000);
 
     } catch (error) {
-      console.log("Login Failed:", error.response?.data || error.message);
-      setErrorMessage(
-        error.response?.data?.message || "Invalid credentials"
-      );
+      const message =
+        error.response?.data?.message ||
+        "Invalid Username or Password ";
+
+      toast.error(message);
     }
+
   };
 
   return (
@@ -47,12 +50,6 @@ function Form({ setIsLoggedIn }) {
         <h2 className="text-2xl font-bold text-center">
           Login
         </h2>
-
-        {errorMessage && (
-          <p className="text-red-300 text-sm text-center">
-            {errorMessage}
-          </p>
-        )}
 
         <div>
           <label className="block mb-1 text-sm font-medium">
@@ -89,6 +86,15 @@ function Form({ setIsLoggedIn }) {
           Login
         </button>
       </form>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+      />
+
     </div>
   );
 }
