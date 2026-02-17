@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 function Recipe() {
 
@@ -40,11 +41,15 @@ function Recipe() {
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
         {user.map((recipe) => (
+
+         <Link to={`/recipe/${recipe.id}`} key={recipe.id}>
+                
+
           <div
-            key={recipe.id}
+            
             className="bg-white rounded-xl shadow-md hover:shadow-xl transition duration-300 overflow-hidden" >
             <img
-              src={recipe.imag}
+              src={recipe.image}
               alt={recipe.name}
               className="w-full object-cover" />
 
@@ -62,6 +67,7 @@ function Recipe() {
               </p>
             </div>
           </div>
+            </Link> 
         ))}
 
       </div>

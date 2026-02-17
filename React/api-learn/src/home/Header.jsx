@@ -17,7 +17,7 @@ function Header({ setIsLoggedIn }) {
 }
 return (
   <header className="flex justify-between bg-blue-800 p-4">
-    <h1 className="text-4xl font-bold text-white">Foody</h1>
+    <h1 className="text-4xl font-bold text-white">Resyp</h1>
 
     <nav>
       <ul className="flex gap-10 m-2 text-white items-center">
@@ -28,7 +28,7 @@ return (
         <button
           onClick={handleLogout}
           type="button"
-          className="bg-white hover:bg-gray-400 text-black text-xl rounded-2xl px-3 py-1 shadow-md transition"
+          className="hover:bg-red-700 text-xl rounded-2xl px-2 py-1 "
         >
           Log out
         </button>

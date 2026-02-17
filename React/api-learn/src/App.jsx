@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import RecipeDetails from "./componets/RecipeDetails";
 
 import Form from "./componets/login-page/Form";
 import Footer from "./home/Footer";
@@ -9,6 +10,7 @@ import About from "./componets/About";
 import Contact from "./componets/Contact";
 import Services from "./componets/Services";
 import { ToastContainer } from "react-toastify";
+import Protectedroute from "./componets/login-page/Protectedroute";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
@@ -32,9 +34,16 @@ function App() {
           }
         />
 
-        <Route path="/about" element={isLoggedIn ? <About /> : <Navigate to="/" />} />
-        <Route path="/contact" element={isLoggedIn ? <Contact /> : <Navigate to="/" />} />
-        <Route path="/services" element={isLoggedIn ? <Services /> : <Navigate to="/" />} />
+        <Route element={<Protectedroute isLoggedIn={isLoggedIn} />}>
+
+          <Route path="/about" element={<About />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/services" element={<Services />} />
+
+          <Route path="/recipe/:id" element={<RecipeDetails />} />
+
+          
+        </Route>
 
       </Routes>
 
