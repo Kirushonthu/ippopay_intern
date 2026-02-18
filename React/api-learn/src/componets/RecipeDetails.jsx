@@ -46,7 +46,7 @@ function RecipeDetails() {
                 <strong>Rating:</strong> {recipe.rating}
             </p>
 
-            <h3 className="text-xl font-semibold mt- mb-2">
+            <h3 className="text-xl font-semibold  mb-2">
                 Ingredients:
             </h3>
 
