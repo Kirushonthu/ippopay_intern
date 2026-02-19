@@ -13,7 +13,7 @@ function Form({ setIsLoggedIn }) {
     try {
       const res = await axios.post(
         "https://dummyjson.com/auth/login",
-        {
+        { 
           username: Name,
           password: password,
         }
@@ -86,14 +86,7 @@ function Form({ setIsLoggedIn }) {
           Login
         </button>
       </form>
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        hideProgressBar={false}
-        closeOnClick
-        pauseOnHover
-        theme="colored"
-      />
+      
 
     </div>
   );

@@ -24,7 +24,14 @@ function App() {
 
 
       {isLoggedIn && <Header setIsLoggedIn={setIsLoggedIn} />}
-
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        closeOnClick
+        pauseOnHover
+        theme="colored"
+      />
       <Routes>
 
         <Route
@@ -42,18 +49,13 @@ function App() {
 
           <Route path="/recipe/:id" element={<RecipeDetails />} />
 
-          
+
         </Route>
 
       </Routes>
-
       {isLoggedIn && <Footer />}
 
-      <ToastContainer
-        position="top-right"
-        autoClose={3000}
-        theme="colored"
-      />
+
 
 
     </BrowserRouter>
