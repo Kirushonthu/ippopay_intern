@@ -63,55 +63,56 @@ function Recipe() {
   };
 
   const handleAddChange = (e) => {
-    const { name, value } = e.target;
+  const { name, value } = e.target;
 
-    if (name === "rating") {
+  if (name === "rating") {
 
-      if (value === "") {
-        setNewRecipe(prev => ({
-          ...prev,
-          rating: ""
-        }));
-        return;
-      }
-
-      const ratingRegex = /^(?:[1-4](?:\.\d)?|5(?:\.0)?)$/;
-
-      if (!ratingRegex.test(value)) {
-        return;
-      }
+    if (value === "") {
+      setNewRecipe(prev => ({
+        ...prev,
+        rating: ""
+      }));
+      return;
     }
 
-    setNewRecipe((prev) => ({
-      ...prev,
-      [name]: value
-    }));
-  };
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
+    const ratingRegex = /^(?:[1-4](?:\.\d)?|5(?:\.0)?)$/;
 
-    if (name === "rating") {
+    if (!ratingRegex.test(value)) {
+      return;
+    }
+  }
 
-      if (value === "") {
-        setEditRecipe(prev => ({
-          ...prev,
-          rating: ""
-        }));
-        return;
-      }
+  setNewRecipe((prev) => ({
+    ...prev,
+    [name]: value
+  }));
+};
 
-      const ratingRegex = /^(?:[1-4](?:\.\d)?|5(?:\.0)?)$/;
+ const handleEditChange = (e) => {
+  const { name, value } = e.target;
 
-      if (!ratingRegex.test(value)) {
-        return;
-      }
+  if (name === "rating") {
+
+    if (value === "") {
+      setEditRecipe(prev => ({
+        ...prev,
+        rating: ""
+      }));
+      return;
     }
 
-    setEditRecipe(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  };
+    const ratingRegex = /^(?:[1-4](?:\.\d)?|5(?:\.0)?)$/;
+
+    if (!ratingRegex.test(value)) {
+      return; 
+    }
+  }
+
+  setEditRecipe(prev => ({
+    ...prev,
+    [name]: value
+  }));
+};
 
 
   const confirmAdd = () => {
@@ -121,22 +122,21 @@ function Recipe() {
     }
 
     const ratingNumber = Number(newRecipe.rating);
-
+    
     if (!newRecipe.rating) {
-      toast.error("Rating is required");
-      return;
-    }
+    toast.error("Rating is required");
+    return;}
 
     if (ratingNumber < 1 || ratingNumber > 5) {
-      toast.error("Rating must be between 1 and 5");
-      return;
-    }
+    toast.error("Rating must be between 1 and 5");
+    return;
+  }
 
-    const decimalPart = newRecipe.rating.toString().split(".")[1];
-    if (decimalPart && decimalPart.length > 1) {
-      toast.error("Only one decimal place allowed (e.g., 4.5)");
-      return;
-    }
+  const decimalPart = newRecipe.rating.toString().split(".")[1];
+  if (decimalPart && decimalPart.length > 1) {
+    toast.error("Only one decimal place allowed (e.g., 4.5)");
+    return;
+  }
 
     const newId =
       user.length > 0
@@ -192,19 +192,19 @@ function Recipe() {
   const confirmEdit = () => {
     const ratingNumber = Number(editRecipe.rating);
 
-    if (ratingNumber < 1 || ratingNumber > 5) {
+   if (ratingNumber < 1 || ratingNumber > 5) {
       toast.error("Rating must be between 1 and 5");
       return;
     }
+ 
+     const decimalPart = editRecipe.rating.toString().split(".")[1];
 
-    const decimalPart = editRecipe.rating.toString().split(".")[1];
+  if (decimalPart && decimalPart.length > 1) {
+    toast.error("Only one decimal place allowed (e.g., 4.5)");
+    return;
+  }
 
-    if (decimalPart && decimalPart.length > 1) {
-      toast.error("Only one decimal place allowed (e.g., 4.5)");
-      return;
-    }
-
-
+    
     const updated = user.map((item) =>
       item.id === editId ? { ...item, name: editRecipe.name, cuisine: editRecipe.cuisine, rating: ratingNumber } : item
     );
@@ -356,7 +356,7 @@ function Recipe() {
                 name="rating"
                 min="1"
                 max="5"
-                step="0.5"
+                step="0.1"
                 placeholder="Rating"
                 value={newRecipe.rating}
                 onChange={handleAddChange}
@@ -424,8 +424,7 @@ function Recipe() {
               />
 
               <input
-                type="text"
-                inputMode="decimal"
+                type="number"
                 name="rating"
                 step="0.5"
                 value={editRecipe.rating}
