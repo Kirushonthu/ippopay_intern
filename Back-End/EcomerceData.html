@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+
+        let ProductData;
+        fetch("https://dummyjson.com/products")
+            .then(response => response.json())
+            .then(data => {
+                ProductData = data.products;
+                operations()
+            })
+            .catch(error => console.log("error fetcting data"))
+
+        function operations() {
+            console.log(ProductData)
+
+          function AddProduct(){
+              ProductData.push({
+                id: 31,
+                title: "telephone",
+                description: "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Reiciendis, suscipit.",
+                availabilityStatus: "In Stock",
+                category: "groceries",
+                description: "Versatile cooking oil suitable for frying, sautéing, and various culinary applications.",
+                discountPercentage: 9.33  })
+          } AddProduct()
+          
+          function Deleteproduct(id){
+             const index=ProductData.findIndex((f)=>f.id===id)
+             if(index===-1){
+                console.log("id is invalid")
+                return;
+             }
+            ProductData.splice(index,1)
+          }Deleteproduct(1)
+
+
+          function SortByPrice(){
+            ProductData.sort((a,b)=>a.price-b.price)
+            return ProductData;
+          } 
+          console.log("Sorted by price",SortByPrice())
+
+   
+          function UpdatePrice(){
+            let discount=10;
+            ProductData.map((m)=>m.prices-discount)
+            return ProductData;
+          }console.log("updated product prices ",UpdatePrice())
+  
+          function FindProduct(idval){
+
+          const FoundItem=  ProductData.find((f)=>f.id===idval)
+            console.log( `item found in the ${idval} is`)
+            return FoundItem;
+          } console.log(FindProduct(7))
+
+        }
+
+
+    </script>
+</body>
+
+</html>
