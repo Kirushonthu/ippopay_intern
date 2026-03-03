@@ -6,8 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-
+   
 <body>
+
+  <h1>Open Console to see the output</h1>
     <script>
 
         let ProductData;
@@ -15,12 +17,14 @@
             .then(response => response.json())
             .then(data => {
                 ProductData = data.products;
+                console.log("Data fetched successful")
+                 console.log(ProductData)
                 operations()
             })
             .catch(error => console.log("error fetcting data"))
 
         function operations() {
-            console.log(ProductData)
+           
 
           function AddProduct(){
               ProductData.push({
@@ -40,21 +44,26 @@
                 return;
              }
             ProductData.splice(index,1)
-          }Deleteproduct(1)
+          }
+         console.log("new item added and one item deleted", Deleteproduct(1))
 
 
           function SortByPrice(){
-            ProductData.sort((a,b)=>a.price-b.price)
-            return ProductData;
+            let sortdata=[...ProductData];
+           sortdata.sort((a,b)=>a.price-b.price)
+            return sortdata;
           } 
           console.log("Sorted by price",SortByPrice())
 
    
-          function UpdatePrice(){
+          function Updatestock(){
             let discount=10;
-            ProductData.map((m)=>m.prices-discount)
+            ProductData.map((m)=>m.stock=m.stock-(discount))
             return ProductData;
-          }console.log("updated product prices ",UpdatePrice())
+          }console.log("updated product prices ",Updatestock())
+
+
+          
   
           function FindProduct(idval){
 
