@@ -1,11 +1,11 @@
-console.log("started")
-axios.get("https://dummyjson.com/users")
-    .then((res) => {
-        console.table(res.data.users)
-    })
-    .catch((err) => {
-        console.log(err.message)
-    })
+// console.log("started")
+// axios.get("https://dummyjson.com/users")
+//     .then((res) => {
+//         console.table(res.data.users)
+//     })
+//     .catch((err) => {
+//         console.log(err.message)
+//     })
 
 
 
