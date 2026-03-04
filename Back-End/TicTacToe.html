@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic Tac Toe</title>
+</head>
+
+<body>
+    <h1>Tic Tac Toe</h1>
+    <h2 id="status">Current Player: X</h2>
+
+    <div id="board">
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+        <div class="cell"></div>
+    </div>
+    <button id="Restart">
+        <h3>Restart Game</h3>
+    </button>
+
+    <style>
+        /* #board {
+            display: grid;
+            grid-template-columns: repeat(3, 150px);
+            grid-template-rows: repeat(3, 150px);
+            gap: 5px;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 1px 7px;
+            color: rgb(0, 0, 0);
+            margin-top: 25px;
+            cursor: pointer;
+        }
+
+        .cell:hover {
+            background-color: #f0f0f0;
+        }
+
+        .cell {
+            border: 2px solid black;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 40px;
+            cursor: pointer;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            
+        }  */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: "Poppins", sans-serif;
+        }
+
+        body {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #ff6a00, #ee0979, #6a11cb, #139263);
+            background-size: 300% 300%;
+            animation: gradientMove 8s ease infinite;
+        }
+
+        @keyframes gradientMove {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        h1 {
+            color: white;
+            font-size: 34px;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        #status {
+            color: #f1f1f1;
+            margin-bottom: 25px;
+            font-size: 18px;
+            font-weight: 500;
+        }
+
+        #board {
+            display: grid;
+            grid-template-columns: repeat(3, 115px);
+            grid-template-rows: repeat(3, 115px);
+            gap: 10px;
+        }
+
+        .cell {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
+            border-radius: 15px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 42px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .cell:hover {
+            transform: scale(1.08);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.35);
+        }
+
+        button {
+            margin-top: 30px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 30px;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        button h3 {
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+
+    <script>
+        const cells = document.querySelectorAll(".cell")
+        const status = document.getElementById("status");
+        const reset = document.getElementById("Restart")
+        
+        const board = ["", "", "", "", "", "", "", "", "",]
+        let CurrentPlayer = "X";
+        let GameActive = true;
+        let moveCount = 0;
+        
+        // console.log(cells)
+
+        cells.forEach((cell, index) => {
+            cells[index].addEventListener("click", () => UpadateUi(index))
+        })
+
+        reset.addEventListener("click", () => Restart())
+
+
+
+        function UpadateUi(index) {
+            if (board[index] !== "" || GameActive === false) return;
+            board[index] = CurrentPlayer;
+            cells[index].innerText = CurrentPlayer;
+            moveCount++;
+            checkWinner();
+            checkDraw()
+
+            if (GameActive) {
+                CurrentPlayer = CurrentPlayer === "X" ? "O" : "X";
+                status.innerText = `Current Player: ${CurrentPlayer}`
+            }
+        }
+
+        function checkWinner() {
+            const winPatterns = [
+                [0, 1, 2], [3, 4, 5], [6, 7, 8],
+                [0, 3, 6], [1, 4, 7], [2, 5, 8],
+                [0, 4, 8], [2, 4, 6]
+            ];
+
+            for (let pattern of winPatterns) {
+                const [a, b, c] = pattern;
+
+                if (
+                    board[a] === CurrentPlayer &&
+                    board[b] === CurrentPlayer &&
+                    board[c] === CurrentPlayer
+                ) {
+                    // console.log(` player ${CurrentPlayer} wins !`)
+                    status.innerText = ` Winner   ${CurrentPlayer} `
+                    GameActive = false;
+                    return;
+                }
+            }
+
+        }
+
+        function checkDraw() {
+            if (moveCount >= 9 && GameActive) {
+                // console.log("Its a Draw !!!")
+                status.innerText = "Its a Draw !!!"
+                GameActive = false;
+            }
+        }
+
+        function Restart() {
+            //    window.location.reload()
+            board.fill("");
+            cells.forEach(cell => cell.innerText = "");
+            CurrentPlayer = "X";
+            GameActive = true;
+            moveCount = 0;
+            status.innerText = "Current Player: X";
+        }
+    </script>
+</body>
+
+</html>

@@ -1,35 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Todo App</title>
-    <script src="https://cdn.tailwindcss.com"></script>   
+    <script src="https://cdn.tailwindcss.com"></script>
 </head>
+
 <body>
 
     <div class="min-h-screen bg-gray-100 flex items-center justify-center">
-        
+
         <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-md">
-            
+
             <h1 class="text-2xl font-bold text-center mb-2 text-gray-700">
                 My Todo App
             </h1>
-            
+
             <p class="text-center text-gray-500 mb-6">
                 Keep track your tasks
             </p>
 
             <div class="flex gap-3">
-                <input
-                    id="taskInput"
-                    type="text"
-                    placeholder="Enter your task..."
-                    class="flex-1 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400"
-                />
+                <input id="taskInput" type="text" placeholder="Enter your task..."
+                    class="flex-1 border border-gray-300 rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-blue-400" />
 
-                <button
-                    id="addBtn"
+                <button id="addBtn"
                     class="bg-blue-500 text-white px-5 py-3 rounded-lg hover:bg-blue-600 transition duration-300">
                     Add
                 </button>
@@ -37,42 +34,58 @@
 
             <!-- Task List -->
             <div id="taskList" class="mt-6 space-y-3">
-                
 
+
+            </div>
         </div>
-    </div>
-<script>
-    const input=document.getElementById("taskInput");
-    const button = document.getElementById("addBtn");
-    const taskList = document.getElementById("taskList");
+        <script>
+            const input = document.getElementById("taskInput");
+            const button = document.getElementById("addBtn");
+            const taskList = document.getElementById("taskList");
 
-button.addEventListener("click",function(){
-    const inputValue=input.value.trim();
-    if(inputValue==="") return;
+            button.addEventListener("click", function () {
+                const inputValue = input.value.trim();
+                if (inputValue === "") return;
 
-    const li =document.createElement("li");
-    li.className= "flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm border";
-    const span =document.createElement("span");
-    span.innerText=inputValue;
-    const check=document.createElement("input");
-    check.type="checkbox";
+                const li = document.createElement("li");
+                li.className = "flex justify-between items-center bg-gray-50 p-3 rounded-lg shadow-sm border";
+                const span = document.createElement("span");
+                span.innerText = inputValue;
+                const check = document.createElement("input");
+                check.type = "checkbox";
+                const delbtn = document.createElement("button");
+                delbtn.innerText = "Delete";
+                delbtn.className = "text-red-500 font-semibold";
+                const leftDiv = document.createElement("div");
+                leftDiv.className = "flex items-center gap-3";
 
-    check.addEventListener("change", function () {
-            if (check.checked) {
-                span.style.textDecoration = "line-through";
-                span.style.color = "gray";
-            } else {
-                span.style.textDecoration = "none";
-                span.style.color = "black";
-            }})
 
-    li.appendChild(span);
-    li.appendChild(check);
+                check.addEventListener("change", function () {
+                    if (check.checked) {
+                        span.style.textDecoration = "line-through";
+                        span.style.color = "gray";
+                    } else {
+                        span.style.textDecoration = "none";
+                        span.style.color = "black";
+                    }
+                })
 
-    taskList.appendChild(li);
+                delbtn.addEventListener("click", function () {
+                    li.remove();
+                });
 
-    input.value="";
-})
-</script>
+                leftDiv.appendChild(check);
+                leftDiv.appendChild(span);
+
+                li.appendChild(leftDiv);
+                li.appendChild(delbtn);
+
+
+                taskList.appendChild(li);
+
+                input.value = "";
+            })
+        </script>
 </body>
+
 </html>
