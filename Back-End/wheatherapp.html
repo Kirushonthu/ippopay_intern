@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wheather Appp</title>
+</head>
+
+<body>
+    <style>
+        body{
+    font-family: Arial, Helvetica, sans-serif;
+    background: linear-gradient(135deg,#0040ff,#000000);
+    min-height: 100vh;
+    margin: 0;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    color:#333;
+}
+
+h1{
+    color:white;
+    margin-bottom:20px;
+}
+
+input{
+    padding:12px 15px;
+    border-radius:8px;
+    border:none;
+    outline:none;
+    font-size:16px;
+    width:250px;
+    margin-right:10px;
+}
+
+button{
+    padding:12px 18px;
+    margin-top: 10px;
+    border:none;
+    border-radius:8px;
+    background:#1f87ef;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0f78d1;
+}
+
+#cityname{
+    margin-top:25px;
+    color:white;
+}
+
+h3{
+    background:white;
+    padding:10px 20px;
+    border-radius:10px;
+    width:260px;
+    text-align:center;
+    margin:8px 0;
+    box-shadow:0 4px 10px rgba(0,0,0,0.15);
+}
+    </style>
+    <h1>Weather app</h1>
+
+    <input type="text" placeholder="Enter City Name" autocomplete="off" id="city">
+    <button onclick="getWeather()">Search</button>
+    <h2 id="cityname"></h2>
+    <h3 id="time">Time :</h3>
+    <h3 id="temp">Temperature :</h3>
+    <h3 id="wind">WindSpeed :</h3>
+    <h3 id="ele">Elevation :</h3>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/notyf@3/notyf.min.js"></script>
+    <script>
+
+        function getWeather() {
+            const notyf = new Notyf();
+
+            let city = document.getElementById("city").value;
+            if (city === "") {
+                notyf.error('Please Enter City Name!');
+                return;
+            }
+
+            fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${city}`)
+                .then(res => res.json())
+                .then(locationdata => {
+
+                    if (!locationdata.results) {
+                        notyf.error('City not found!');
+                        return;
+                    }
+
+
+                    let lat = locationdata.results[0].latitude;
+                    let lon = locationdata.results[0].longitude;
+                    let name = locationdata.results[0].name
+
+                    document.getElementById("cityname").innerText = `City Name : ${name}`;
+
+                    console.log(lat, lon, name)
+                    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true`
+                    return fetch(url)
+                })
+                .then(response => response.json())
+                .then(data => {
+
+                    notyf.success('Weather loaded!');
+
+                    let time = data.current_weather.time;
+                    let temp = data.current_weather.temperature;
+                    let wind = data.current_weather.windspeed;
+                    let ele = data.elevation;
+
+                    
+                    document.getElementById("time").innerText = `Time : ${time}`;
+                    document.getElementById("temp").innerText = `Temperature : ${temp} degrees`;
+                    document.getElementById("wind").innerText = `WindSpeed : ${wind} km/h `
+                    document.getElementById("ele").innerText = `Elevation : ${ele} `
+                    // cityInput.value = "";
+                    console.log(data)
+                })
+                .catch(error => {
+                    console.log("error occured", error.message)
+                })
+        }
+
+
+
+    </script>
+</body>
+
+</html>
