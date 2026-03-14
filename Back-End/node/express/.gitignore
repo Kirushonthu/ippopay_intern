@@ -1,0 +1,21 @@
+# Node modules
+node_modules/
+
+# lock file
+package-lock.json
+
+# environment variables
+.env
+
+# logs
+logs
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# build folders
+dist/
+build/
