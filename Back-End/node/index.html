@@ -10,21 +10,53 @@
 <body>
     <h1>hello</h1>
     <script>
-        fetch("http://localhost:3000/")
-            .then(res => res.text())
-            .then(data => console.log(data))
+        // fetch("http://localhost:3000/")
+        //     .then(res => res.text())
+        //     .then(data => console.log(data))
 
-        fetch("http://localhost:3000/home")
-            .then(res => res.text())
-            .then(data => console.log(data))
+        // fetch("http://localhost:3000/home")
+        //     .then(res => res.text())
+        //     .then(data => console.log(data))
 
-        fetch("http://localhost:3000/about")
-            .then(res => res.text())
-            .then(data => console.log(data))
+        // fetch("http://localhost:3000/about")
+        //     .then(res => res.text())
+        //     .then(data => console.log(data))
 
-        fetch("http://localhost:3000/whatever")
-            .then(res => res.text())
-            .then(data => console.log(data))
+        // fetch("http://localhost:3000/whatever")
+        //     .then(res => res.text())
+        //     .then(data => console.log(data))
+
+        function getdatta() {
+            fetch("http://localhost:3001/users")
+                .then(res => res.json())
+                .then(data => console.log(data));
+
+
+        }
+
+        //   getdatta()
+        function postdataa() {
+
+            const postdata = {
+                name: "gojo satoru"
+            }
+
+            fetch("http://localhost:3001/users", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(postdata)
+            })
+                .then(res => res.json())
+                .then(data => {
+                    console.log(data)
+                    console.log("data added successfully")
+                })
+
+        }
+
+        // postdataa()
 
     </script>
 </body>
