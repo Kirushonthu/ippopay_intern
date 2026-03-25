@@ -44,7 +44,7 @@ app.get("/notes/:id", (req, res) => {
 
     res.status(200).json({
         success: true,
-        message: "Note found",
+        message: "data found",
         data: found
     })
 
