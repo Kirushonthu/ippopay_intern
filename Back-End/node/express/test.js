@@ -1,6 +1,6 @@
-// const mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
-// mongoose.connect("mongodb+srv://kishore:123%40321@cluster0.g5gdgyc.mongodb.net/kish?retryWrites=true&w=majority")
+// mongoose.connect("mongodb+srv://kishore:hnHfLXoWnPuUKWtJ@cluster0.g5gdgyc.mongodb.net/kish?retryWrites=true&w=majority")
 // .then(() => console.log("✅ Connected"))
 // .catch(err => console.log("❌ Error:", err.message));
 

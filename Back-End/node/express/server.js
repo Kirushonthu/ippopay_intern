@@ -4,23 +4,33 @@ const mongoose = require("mongoose");
 // const app = express();
 // app.use(express.json());
 
-mongoose.connect("mongodb://127.0.0.1:27017/notesdb")
-  .then(() => console.log("db connected"))
-  .catch((err) => console.log(`error occurred ${err}`));
+mongoose.connect("mongodb://127.0.0.1:27017/notesdb", {
+  serverSelectionTimeoutMS: 3000
+})
+  .then(() => console.log("DB connected"))
+  .catch(err => console.log("Error:", err.message));
 
 const userschema = new mongoose.Schema({
-  type: String,
-  content: String
+  type: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+    minlength: 10
+  }
+}, {
+  versionKey: false   
 });
-
 
 const Notes = mongoose.model("Notes", userschema);
 
 const insert = async () => {
   try {
     const indata = await Notes.create({
-      type: "walk",
-      content: "walking asdgahs has "
+      type: "read",
+      content: "zd zgj zgkgj gfg "
     });
   }
   catch (err) {
@@ -70,8 +80,9 @@ const readid = async () => {
 const update = async () => {
   try {
     const data = await Notes.updateOne(
-      { type: "random" },
-      { $set: { type: "swim", content: "swiming " } });
+      { type: "swim" },
+      { $set: { type: "swim", content: "swiming is good cardio" } },
+      { runValidators: true });
     console.log(data);
   } catch (err) {
     console.log("Error updating data", err.message);
@@ -82,14 +93,40 @@ const update = async () => {
 
 const deletefun = async () => {
   try {
-    const data = await Notes.deleteOne({ type: "walk" })
-    console.log(data);
+    const data = await Notes.findOneAndDelete({ type: "walk" });
+
+    if (!data) {
+      console.log("No document found");
+    } else {
+      console.log("Deleted:", data);
+    }
+
   } catch (err) {
-    console.log("Error deleting data", err.message);
+    console.log("Error:", err.message);
   }
-}
+};
 
 // deletefun()
+
+const deleteMany = async () => {
+  try {
+    const docs = await Notes.find({ type: "walk" });
+
+    if (docs.length === 0) {
+      console.log("No document found");
+      return;
+    }
+
+    const result = await Notes.deleteMany({ type: "walk" });
+
+    console.log("Deleted count:", result.deletedCount);
+
+  } catch (err) {
+    console.log("Error:", err.message);
+  }
+};
+// deleteMany()
+read()
 
 
 
