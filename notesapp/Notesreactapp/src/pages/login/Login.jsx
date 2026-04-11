@@ -1,47 +1,67 @@
-import { useState } from "react";
+import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    console.log("Email:", email);
-    console.log("Password:", password);
+    try {
+      const res = await fetch("http://localhost:3047/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
 
-    // here you can call your API
+      const data = await res.json();
+
+      if (!res.ok) {
+        alert(data.message || "Login failed");
+        return;
+      }
+
+      localStorage.setItem("token", data.token);
+      navigate("/home");
+    } catch (error) {
+      console.error("Login failed:", error);
+    }
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <form
-        onSubmit={handleSubmit}
-        className="bg-white p-6 rounded-2xl shadow-md w-80"
-      >
-        <h2 className="text-2xl font-semibold mb-4 text-center">Login</h2>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <form onSubmit={handleLogin} className="bg-white p-6 rounded-xl shadow-md w-80">
+        <h2 className="text-xl font-semibold mb-4 text-center">Login</h2>
 
-        <label className="block mb-1">Email</label>
         <input
-          type="text"
+          type="email"
+          placeholder="Email"
+          className="border p-2 w-full mb-3 rounded"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="w-full p-2 mb-3 border rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Enter email"
+          required
         />
 
-        <label className="block mb-1">Password</label>
         <input
           type="password"
+          placeholder="Password"
+          className="border p-2 w-full mb-3 rounded"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 border rounded-lg outline-none focus:ring-2 focus:ring-blue-400"
-          placeholder="Enter password"
+          required
         />
 
-        <button className="w-full bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600">
-          Submit
+        <button className="bg-blue-500 text-white w-full py-2 rounded">
+          Login
         </button>
+
+        <p className="text-sm text-center mt-3">
+          No account? <Link to="/signup" className="text-blue-500">Signup</Link>
+        </p>
       </form>
     </div>
   );

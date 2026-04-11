@@ -4,11 +4,35 @@ import { Link } from "react-router-dom";
 const Home = () => {
   const [count, setCount] = useState(0);
 
-  useEffect(() => {
-    fetch("http://localhost:3047/notes")
-      .then(res => res.json())
-      .then(data => setCount(data.data.length));
-  }, []);
+ useEffect(() => {
+  const fetchNotes = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const res = await fetch("http://localhost:3047/notes", {
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ IMPORTANT
+        },
+      });
+
+      const data = await res.json();
+
+      console.log("Notes API:", data); // debug
+      console.log("TOKEN:", token);
+
+      if (res.ok) {
+        setCount(data.data.length);
+      } else {
+        console.error(data.message);
+      }
+
+    } catch (error) {
+      console.error("Error fetching notes:", error);
+    }
+  };
+
+  fetchNotes();
+}, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-gray-100 p-6">

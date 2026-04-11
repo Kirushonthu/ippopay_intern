@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { FaTrash, FaEdit } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Fetch = () => {
   const [notes, setNotes] = useState([]);
@@ -10,12 +10,39 @@ const Fetch = () => {
   const [editId, setEditId] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const navigate = useNavigate();
+
+  // ✅ ONLY ONE useEffect (fixed)
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      navigate("/login");
+    } else {
+      fetchNotes();
+    }
+  }, []);
+
+  // ✅ FETCH NOTES
   const fetchNotes = async () => {
     try {
       setLoading(true);
-      const res = await fetch("http://localhost:3047/notes");
+
+      const res = await fetch("http://localhost:3047/notes", {
+        headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      });
+
       const result = await res.json();
-      setNotes(result.data);
+
+      if (!res.ok) {
+        console.log(result.message);
+        return;
+      }
+
+      setNotes(result.data || []);
+
     } catch (error) {
       console.error("Failed to Fetch data:", error);
     } finally {
@@ -23,23 +50,24 @@ const Fetch = () => {
     }
   };
 
-  useEffect(() => {
-    fetchNotes();
-  }, []);
-
+  // ✅ DELETE NOTE
   const deleteItem = async (id) => {
     try {
       await fetch(`http://localhost:3047/notes/${id}`, {
         method: "DELETE",
+        headers: {
+           Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
 
-      // ⚡ instant UI update
-      setNotes(notes.filter((note) => note._id !== id));
+      fetchNotes(); // safer refresh
+
     } catch (error) {
       console.error("Failed to delete:", error);
     }
   };
 
+  // ✅ OPEN EDIT
   const openEdit = (note) => {
     setEditId(note._id);
     setType(note.type);
@@ -47,12 +75,14 @@ const Fetch = () => {
     setIsOpen(true);
   };
 
+  // ✅ UPDATE NOTE
   const EditItem = async () => {
     try {
       await fetch(`http://localhost:3047/notes/${editId}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
+         Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({ type, content }),
       });
@@ -61,7 +91,9 @@ const Fetch = () => {
       setType("");
       setContent("");
       setEditId(null);
+
       fetchNotes();
+
     } catch (error) {
       console.error("Failed to Edit:", error);
     }
@@ -94,7 +126,7 @@ const Fetch = () => {
         {/* EMPTY STATE */}
         {!loading && notes.length === 0 && (
           <p className="text-center text-gray-500">
-            No notes yet. Start by adding one 
+            No notes yet. Start by adding one
           </p>
         )}
 

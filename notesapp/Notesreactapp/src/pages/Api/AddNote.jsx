@@ -9,26 +9,26 @@ const Data = () => {
     // const [editId, setEditId] = useState(null);
 
 
-    const adddata = async (e) => {
-        try {
-            e.preventDefault();
+   const adddata = async (e) => {
+  try {
+    e.preventDefault();
 
-            await fetch("http://localhost:3047/notes", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({ type, content }),
-            });
+    await fetch("http://localhost:3047/notes", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+         Authorization: `Bearer ${localStorage.getItem("token")}`, 
+      },
+      body: JSON.stringify({ type, content }),
+    });
 
-            setType("");
-            setContent("");
-            fetchNotes();
-        } catch (error) {
-            console.error('Failed to post data:', error);
-        }
-    };
+    setType("");
+    setContent("");
 
+  } catch (error) {
+    console.error("Failed to post data:", error);
+  }
+};
 
 
     return (
